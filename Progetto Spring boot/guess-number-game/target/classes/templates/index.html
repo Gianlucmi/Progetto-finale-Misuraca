@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>INDOVINA L'ETA'</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">INDOVINA L'ETA'</h1>
+        <div>
+            <!-- Mostra il range di età -->
+            <p><strong> L'età da indovinare è compresa tra 1 e 20 anni.</strong></p>
+        </div>
+        <div th:if="${game != null}">
+            <!-- Mostra il numero di tentativi e lo stato del gioco -->
+            <p th:text="'Tentativi: ' + ${game.attempts}"></p>
+            <p th:text="'Stato: ' + ${game.status}"></p>
+        </div>
+        <form th:action="@{/guess}" method="post" class="mt-3" th:if="${game != null and !game.status.startsWith('Corretto!')}">
+            <div class="form-group">
+                <label for="guess">Inserisci la tua ipotesi per l'età:</label>
+                <!-- Aggiunti gli attributi min e max per limitare il range -->
+                <input type="number" id="guess" name="guess" class="form-control" required min="1" max="20">
+            </div>
+            <button type="submit" class="btn btn-primary">INVIA</button>
+        </form>
+        <form th:action="@{/}" method="get" class="mt-3">
+            <button type="submit" class="btn btn-success">INIZIA UNA NUOVA PARTITA</button>
+        </form>
+    </div>
+</body>
+</html>
